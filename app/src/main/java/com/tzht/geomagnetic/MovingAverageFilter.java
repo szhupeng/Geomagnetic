@@ -32,12 +32,14 @@ public class MovingAverageFilter implements Filter {
         }
 
         if (!full && index < windowSize) {
+//            Log.d("TAG", "原始数据：" + value + "，滤波数据：" + sum / index);
             return sum / index;
         } else {
             if (windowSize == index) {
                 full = true;
                 index = 0;
             }
+//            Log.d("TAG", "原始数据：" + value + "，滤波数据：" + sum / windowSize);
             return sum / windowSize;
         }
     }

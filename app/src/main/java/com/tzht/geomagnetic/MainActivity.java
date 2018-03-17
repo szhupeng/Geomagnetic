@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             tvYAxis.setText("y方向的磁场分量为：" + y);
             tvZAxis.setText("z方向的磁场分量为：" + z);
 
-            detector.handle(z);
+            detector.handle(x, y, z);
             if (detector.isVehicleExists()) {
                 tvState.setText("有车");
             } else {

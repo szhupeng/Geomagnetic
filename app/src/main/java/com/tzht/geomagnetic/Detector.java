@@ -16,6 +16,8 @@ public class Detector {
 
     private int counter = 0;
 
+    private int index = 0;
+
     private final KMeansCluster cluster;
 
     private Detector(Config config) {
@@ -35,16 +37,17 @@ public class Detector {
         return new Detector(config);
     }
 
-    public void handle(float axis) {
+    public void handle(float xAxis, float yAxis, float zAxis) {
         if (StateMachine.isState(StateMachine.State.S1)) {
-            if (signals.size() < 50) {
-                signals.add(new Signal(signals.size(), filter.filter(axis)));
+            if (signals.size() < 30) {
+                signals.add(new Signal(index++, filter.filter(zAxis)));
+                index %= 30;
                 return;
             }
 
             initBaseLine();
         } else {
-            checkSignal(filter.filter(axis));
+            checkSignal(filter.filter(zAxis));
         }
     }
 
@@ -75,16 +78,16 @@ public class Detector {
     }
 
     private void checkSignal(float axis) {
-        Signal signal = new Signal(signals.size(), axis);
-        signals.remove(0);
-        signals.add(signal);
-        cluster.cluster(signals, baseLine, config.getThresholdOfZAxisIncoming());
+        Signal signal = new Signal(index, axis);
+        signals.set(index++, signal);
+        index %= 30;
+        cluster.cluster(signals, baseLine, config.getThresholdOfZ());
         if (1 == cluster.type(signal)) {
             if (StateMachine.isState(StateMachine.State.S2)) {
                 counter = 0;
                 StateMachine.switchTo(StateMachine.State.S3);
             } else if (StateMachine.isState(StateMachine.State.S3)) {
-                if (counter > 20) {
+                if (counter > 50) {
                     counter = 0;
                     StateMachine.switchTo(StateMachine.State.S5);
                 } else {
@@ -101,13 +104,13 @@ public class Detector {
                 counter = 0;
                 StateMachine.switchTo(StateMachine.State.S4);
             } else if (StateMachine.isState(StateMachine.State.S4)) {
-                if (counter > 16) {
+                if (counter > 30) {
                     StateMachine.switchTo(StateMachine.State.S2);
                 } else {
                     counter++;
                 }
             } else if (StateMachine.isState(StateMachine.State.S5)) {
-                if (counter > 16) {
+                if (counter > 30) {
                     StateMachine.switchTo(StateMachine.State.S2);
                 } else {
                     counter++;

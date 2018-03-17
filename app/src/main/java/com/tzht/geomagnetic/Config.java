@@ -5,18 +5,17 @@ package com.tzht.geomagnetic;
  */
 
 public class Config {
+    private static final int TH_ENV = 10;  //环境影响阈值
+    private static final int TH_NER = 80;  //附件车辆影响阈值
+    private static final int TH_CAR = 200; //停车影响阈值
+
     private float beta = 0.05f;
     private int windowSize = 16;
     private long samplingInterval = 200;
     private long detectionInterval = 200;
-    private float thresholdOfZAxisIncoming = 20;
-    private float thresholdOfYAxisOutgoing = 5;
-    private float thresholdOfZAxisOutgoing = 20;
+    private float thresholdOfZ = 20;
+    private float thresholdOfY = 5;
     private int comingCheckCount = 15;
-
-    private static final int TH_ENV = 10;  //环境影响阈值
-    private static final int TH_NER = 80;  //附件车辆影响阈值
-    private static final int TH_CAR = 200; //停车影响阈值
 
     public Config() {
     }
@@ -53,28 +52,20 @@ public class Config {
         this.detectionInterval = detectionInterval;
     }
 
-    public float getThresholdOfZAxisIncoming() {
-        return thresholdOfZAxisIncoming;
+    public float getThresholdOfZ() {
+        return thresholdOfZ;
     }
 
-    public void setThresholdOfZAxisIncoming(float thresholdOfZAxisIncoming) {
-        this.thresholdOfZAxisIncoming = thresholdOfZAxisIncoming;
+    public void setThresholdOfZ(float thresholdOfZ) {
+        this.thresholdOfZ = thresholdOfZ;
     }
 
-    public float getThresholdOfYAxisOutgoing() {
-        return thresholdOfYAxisOutgoing;
+    public float getThresholdOfY() {
+        return thresholdOfY;
     }
 
-    public void setThresholdOfYAxisOutgoing(float thresholdOfYAxisOutgoing) {
-        this.thresholdOfYAxisOutgoing = thresholdOfYAxisOutgoing;
-    }
-
-    public float getThresholdOfZAxisOutgoing() {
-        return thresholdOfZAxisOutgoing;
-    }
-
-    public void setThresholdOfZAxisOutgoing(float thresholdOfZAxisOutgoing) {
-        this.thresholdOfZAxisOutgoing = thresholdOfZAxisOutgoing;
+    public void setThresholdOfY(float thresholdOfY) {
+        this.thresholdOfY = thresholdOfY;
     }
 
     public int getComingCheckCount() {
