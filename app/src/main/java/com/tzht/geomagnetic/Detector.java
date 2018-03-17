@@ -82,7 +82,7 @@ public class Detector {
         signals.set(index++, signal);
         index %= 30;
         cluster.cluster(signals, baseLine, config.getThresholdOfZ());
-        if (1 == cluster.type(signal)) {
+        if (Math.abs(axis - baseLine) > config.getThresholdOfZ() && 1 == cluster.type(signal)) {
             if (StateMachine.isState(StateMachine.State.S2)) {
                 counter = 0;
                 StateMachine.switchTo(StateMachine.State.S3);
@@ -97,7 +97,7 @@ public class Detector {
                 counter = 0;
                 StateMachine.switchTo(StateMachine.State.S3);
             }
-        } else {
+        } else if (Math.abs(axis - baseLine) <= config.getThresholdOfZ()) {
             if (StateMachine.isState(StateMachine.State.S2)) {
                 adaptBaseLine(axis);
             } else if (StateMachine.isState(StateMachine.State.S3)) {

@@ -96,7 +96,7 @@ public class KMeansCluster {
                 cluster.setType(0);
             }
 
-            if (min > threshold) {
+            if (min >= threshold) {
                 cluster.setType(1);
             }
         }
